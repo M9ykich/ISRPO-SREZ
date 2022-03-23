@@ -1,0 +1,102 @@
+﻿<Window x:Class="AppSrez2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppSrez2"
+        mc:Ignorable="d"
+        Title="Окно программы" Height="720" Width="1280" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
+    <Grid Background="Pink">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="70"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <StackPanel >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel>
+                    <Label>Время начала</Label>
+                    <DatePicker x:Name="dateStart" Height="40" Width="200"></DatePicker>
+                </StackPanel>
+                <StackPanel Margin="50,0,0,0">
+                    <Label>Время конца</Label>
+                    <DatePicker x:Name="dateEnd" Height="40" Width="200" ></DatePicker>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="200,0,0,0">
+                    <Button Height="40" Width="200" Background="Red" Foreground="White" x:Name="BtnGet" Click="BtnGet_Click">Получить</Button>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.RowSpan="2"  Grid.Row="1">
+            <DataGrid x:Name="DgSale" CanUserAddRows="False" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding client.FIO, Mode=OneWay}"></DataGridTextColumn>
+                </DataGrid.Columns>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" x:Name="Dg" ItemsSource="{Binding telephones}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Артикул" Binding="{Binding articul}"/>
+                                <DataGridTextColumn Header="Производитель"  Binding="{Binding manufacturer}"/>
+                                <DataGridTextColumn Header="Наименование"  Binding="{Binding nameTelephone}"/>
+                                <DataGridTextColumn Header="Количество"  Binding="{Binding count}"/>
+                                <DataGridTextColumn Header="Цена"  Binding="{Binding cost}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+            </DataGrid>
+            
+           
+        </StackPanel>
+       
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Center">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Сформировать чек</TextBlock>
+            <Border BorderBrush="Black" BorderThickness="1" Background="White">
+                <StackPanel Orientation="Horizontal">
+                    <Button Height="60" Width="60" x:Name="BtnWord" Background="Transparent" Click="BtnWord_Click">
+                        <Image Source="res/WordIcon.png"></Image>
+                    </Button>
+                    <Button Height="60" Width="60" x:Name="BtnExcel" Margin="20,0,0,0" Background="Transparent" Click="BtnExcel_Click">
+                        <Image Source="res/ExcelIcon.png"></Image>
+                    </Button>
+                </StackPanel>
+               
+            </Border>
+           
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Center" >
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Сформировать отчетность</TextBlock>
+            <Border BorderBrush="Black" BorderThickness="1" Background="White">
+                <StackPanel Orientation="Horizontal">
+                    <Button Height="60" Width="60" x:Name="BtnWord1" Background="Transparent" Click="BtnWord1_Click">
+                        <Image Source="res/WordIcon.png"></Image>
+                    </Button>
+                    <Button Height="60" Width="60" x:Name="BtnExcel1" Margin="20,0,0,0" Background="Transparent" Click="BtnExcel1_Click">
+                        <Image Source="res/ExcelIcon.png"></Image>
+                    </Button>
+                </StackPanel>
+
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <ComboBox Height="40" Width="200" Margin="20,0,0,0" SelectionChanged="ComboBox_SelectionChanged" x:Name="ComboBox1">
+                <ComboBoxItem>Фирмы</ComboBoxItem>
+                <ComboBoxItem>Продажи</ComboBoxItem>
+            </ComboBox>
+            <StackPanel Margin="150,0,0,0" Background="White" Width="500">
+                <StackPanel x:Name="StackP1">
+                    <WpfPlot Name="WpfPlot" Width="500" Height="250"/>
+                </StackPanel>
+                <StackPanel x:Name="StackP2" Visibility="Collapsed">
+                    <WpfPlot Name="WpfPlot1" Width="500" Height="250"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
