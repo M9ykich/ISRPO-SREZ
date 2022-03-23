@@ -34,14 +34,23 @@ namespace AppSrez2
 
         private async void BtnGet_Click(object sender, RoutedEventArgs e)
         {
-            using (HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Properties.Settings.Default.BaseAddress) })
+            try
             {
-                var content = new StringContent("", Encoding.UTF8, "application/json");
-                HttpResponseMessage httpResponseMessage = await httpClient.PostAsync($"api/Sale?dateStart={dateStart.SelectedDate.Value.Date.ToString("yyyy-MM-dd")}&dateEnd={dateEnd.SelectedDate.Value.Date.ToString("yyyy-MM-dd")}", content);
-                string data = httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                clients = JsonSerializer.Deserialize<List<Sale>>(data);
-                DgSale.ItemsSource = clients;
+                using (HttpClient httpClient = new HttpClient { BaseAddress = new Uri(Properties.Settings.Default.BaseAddress) })
+                {
+                    var content = new StringContent("", Encoding.UTF8, "application/json");
+                    HttpResponseMessage httpResponseMessage = await httpClient.PostAsync($"api/Sale?dateStart={dateStart.SelectedDate.Value.Date.ToString("yyyy-MM-dd")}&dateEnd={dateEnd.SelectedDate.Value.Date.ToString("yyyy-MM-dd")}", content);
+                    string data = httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                    clients = JsonSerializer.Deserialize<List<Sale>>(data);
+                    DgSale.ItemsSource = clients;
+                }
             }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Ошибка");
+            }
+           
         }
 
         private void BtnWord_Click(object sender, RoutedEventArgs e)
@@ -258,69 +267,104 @@ namespace AppSrez2
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ComboBox1.SelectedIndex == 0)
+            try
             {
-                StackP1.Visibility = Visibility.Visible;
-                StackP2.Visibility = Visibility.Collapsed;
-                AppSales();
+                if (ComboBox1.SelectedIndex == 0)
+                {
+                    StackP1.Visibility = Visibility.Visible;
+                    StackP2.Visibility = Visibility.Collapsed;
+                    AppSales();
+                }
+                else if (ComboBox1.SelectedIndex == 1)
+                {
+                    StackP2.Visibility = Visibility.Visible;
+                    StackP1.Visibility = Visibility.Collapsed;
+                    AppDate();
+                }
             }
-            else if (ComboBox1.SelectedIndex == 1)
+            catch (Exception)
             {
-                StackP2.Visibility = Visibility.Visible;
-                StackP1.Visibility = Visibility.Collapsed;
-                AppDate();
+
+                MessageBox.Show("Ошибка!");
             }
+            
         }
 
         public void AppSales()
         {
-
-            List<string> name = new List<string>();
-            List<double> countsale = new List<double>();
-            int count = 0;
-            foreach (var item in clients)
+            try
             {
-                
-                foreach (var telephone in item.telephones)
+                if(clients == null)
                 {
-                    if (!name.Contains(telephone.manufacturer))
-                    {
-                        name.Add(telephone.manufacturer);
-                        countsale.Add(telephone.count * telephone.cost);
-                    }
-                    else
-                    {
-                        var x = countsale.ElementAt(name.IndexOf(telephone.manufacturer));
-                           x += telephone.count * telephone.cost;
-                    }
+                    MessageBox.Show("Ошибка!");
                 }
+                else
+                {
+                    List<string> name = new List<string>();
+                    List<double> countsale = new List<double>();
+                    int count = 0;
+                    foreach (var item in clients)
+                    {
 
+                        foreach (var telephone in item.telephones)
+                        {
+                            if (!name.Contains(telephone.manufacturer))
+                            {
+                                name.Add(telephone.manufacturer);
+                                countsale.Add(telephone.count * telephone.cost);
+                            }
+                            else
+                            {
+                                var x = countsale.ElementAt(name.IndexOf(telephone.manufacturer));
+                                x += telephone.count * telephone.cost;
+                            }
+                        }
+
+                    }
+                    var pie = WpfPlot.Plot.AddPie(countsale.ToArray());
+                    pie.SliceLabels = name.ToArray();
+                    pie.ShowPercentages = true;
+                    pie.ShowValues = true;
+                    pie.ShowLabels = true;
+                    WpfPlot.Plot.Legend();
+                    WpfPlot.Refresh();
+                }
+               
+                
             }
-            var pie = WpfPlot.Plot.AddPie(countsale.ToArray());
-            pie.SliceLabels = name.ToArray();
-            pie.ShowPercentages = true;
-            pie.ShowValues = true;
-            pie.ShowLabels = true;
-            WpfPlot.Plot.Legend();
-            WpfPlot.Refresh();
+            catch (Exception)
+            {
+
+                MessageBox.Show("Ошибка!");
+            }
+           
         }
 
         public void AppDate()
         {
-            int count = (dateEnd.SelectedDate.Value.Date - dateStart.SelectedDate.Value.Date).Days + 1;
-            double[] countDate = new double[count];
-            DateTime[] dates = new DateTime[count];
-            dates[0] = dateStart.SelectedDate.Value.Date;
-
-            for (int i = 0; i < count; i++)
+            try
             {
-                dates[i] = dates[0].AddDays(i);
-                countDate[i] = clients.Where(c => c.dateSale == dates[i]).Sum(x => x.telephones.Sum(c => c.count * c.cost));
+                int count = (dateEnd.SelectedDate.Value.Date - dateStart.SelectedDate.Value.Date).Days + 1;
+                double[] countDate = new double[count];
+                DateTime[] dates = new DateTime[count];
+                dates[0] = dateStart.SelectedDate.Value.Date;
+
+                for (int i = 0; i < count; i++)
+                {
+                    dates[i] = dates[0].AddDays(i);
+                    countDate[i] = clients.Where(c => c.dateSale == dates[i]).Sum(x => x.telephones.Sum(c => c.count * c.cost));
+                }
+                double[] xs = dates.Select(x => x.ToOADate()).ToArray();
+                WpfPlot1.Plot.AddScatter(xs, countDate);
+                WpfPlot1.Plot.XAxis.DateTimeFormat(true);
+                WpfPlot1.Refresh();
             }
-            double[] xs = dates.Select(x => x.ToOADate()).ToArray();
-            WpfPlot1.Plot.AddScatter(xs, countDate);
-            WpfPlot1.Plot.XAxis.DateTimeFormat(true);
-            WpfPlot1.Refresh();
+            catch (Exception)
+            {
+
+                MessageBox.Show("Ошибка!");
+            }
+            
         }
         public class Sale
         {
