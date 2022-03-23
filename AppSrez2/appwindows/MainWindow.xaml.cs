@@ -18,6 +18,9 @@ using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
 using ScottPlot;
 using ScottPlot.Plottable;
+using AppSrez2.models;
+
+
 
 namespace AppSrez2
 {
@@ -26,12 +29,15 @@ namespace AppSrez2
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static List<Sale> clients = null;
+        
         public MainWindow()
         {
             InitializeComponent();
         }
-
+        public static List<Sale> clients = null;
+        /// <summary>
+        /// Метод для выгрузки данных по датам
+        /// </summary>
         private async void BtnGet_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -52,13 +58,15 @@ namespace AppSrez2
             }
            
         }
-
+        /// <summary>
+        /// Метод для формирования чека в ворд
+        /// </summary>
         private void BtnWord_Click(object sender, RoutedEventArgs e)
         {
                 try
                 {
                     var a = DgSale.SelectedItem as Sale;
-                    Word._Application wApp = new Word.Application();
+                    Word._Application wApp = new Word.Application(); 
                     Word._Document wDoc = wApp.Documents.Add();
                     wApp.Visible = false;
                     wDoc.Activate();
@@ -112,7 +120,9 @@ namespace AppSrez2
                     MessageBox.Show($"Ошибка!");
                 }
         }
-
+        /// <summary>
+        /// Метод для формирования чека в Excel
+        /// </summary>
         private void BtnExcel_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -155,7 +165,9 @@ namespace AppSrez2
                 MessageBox.Show($"Ошибка!");
             }
         }
-
+        /// <summary>
+        /// Метод для создания отчетности в Word
+        /// </summary>
         private void BtnWord1_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -217,12 +229,13 @@ namespace AppSrez2
                 MessageBox.Show($"Ошибка!");
             }
         }
-
+        /// <summary>
+        /// Метод для формирования отчетности в Excel 
+        /// </summary>
         private void BtnExcel1_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                
                 Excel.Application excelApp = new Excel.Application();
                 excelApp.Visible = false;
                 int count = 0;
@@ -289,7 +302,9 @@ namespace AppSrez2
             }
             
         }
-
+        /// <summary>
+        /// Метод для вывода данных о продаже
+        /// </summary>
         public void AppSales()
         {
             try
@@ -339,7 +354,9 @@ namespace AppSrez2
             }
            
         }
-
+        /// <summary>
+        /// Метод для вывода графика по дате
+        /// </summary>
         public void AppDate()
         {
             try
@@ -366,38 +383,6 @@ namespace AppSrez2
             }
             
         }
-        public class Sale
-        {
-            public DateTime dateSale { get; set; }
-            public Client client { get; set; }
-            public Telephone[] telephones { get; set; }
-        }
-
-        public class Client
-        {
-            public string lastName { get; set; }
-            public string firstName { get; set; }
-            public string patronymic { get; set; }
-
-            public string FIO
-            {
-                get
-                {
-                    char a = firstName.FirstOrDefault();
-                    char b = patronymic.FirstOrDefault();
-                    return lastName + " " + a + ". " + b + ".";
-                }
-            }
-        }
-
-        public class Telephone
-        {
-            public int articul { get; set; }
-            public string nameTelephone { get; set; }
-            public string category { get; set; }
-            public float cost { get; set; }
-            public int count { get; set; }
-            public string manufacturer { get; set; }
-        }    
+      
     }
 }

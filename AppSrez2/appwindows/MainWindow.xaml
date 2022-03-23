@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppSrez2"
         mc:Ignorable="d"
-        Title="Окно программы" Height="720" Width="1280" ResizeMode="CanResize" WindowStartupLocation="CenterScreen">
+        Title="Слепой кот" Height="720" Width="1280" ResizeMode="CanResize" MinHeight="720" MinWidth="1280" WindowStartupLocation="CenterScreen">
     <Grid Background="Pink">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -60,10 +60,10 @@
             <Border BorderBrush="Black" BorderThickness="1" Background="White">
                 <StackPanel Orientation="Horizontal">
                     <Button Height="60" Width="60" x:Name="BtnWord" Background="Transparent" Click="BtnWord_Click">
-                        <Image Source="res/WordIcon.png"></Image>
+                        <Image Source="/res/WordIcon.png"></Image>
                     </Button>
                     <Button Height="60" Width="60" x:Name="BtnExcel" Margin="20,0,0,0" Background="Transparent" Click="BtnExcel_Click">
-                        <Image Source="res/ExcelIcon.png"></Image>
+                        <Image Source="/res/ExcelIcon.png"></Image>
                     </Button>
                 </StackPanel>
                
@@ -75,20 +75,24 @@
             <Border BorderBrush="Black" BorderThickness="1" Background="White">
                 <StackPanel Orientation="Horizontal">
                     <Button Height="60" Width="60" x:Name="BtnWord1" Background="Transparent" Click="BtnWord1_Click">
-                        <Image Source="res/WordIcon.png"></Image>
+                        <Image Source="/res/WordIcon.png"></Image>
                     </Button>
                     <Button Height="60" Width="60" x:Name="BtnExcel1" Margin="20,0,0,0" Background="Transparent" Click="BtnExcel1_Click">
-                        <Image Source="res/ExcelIcon.png"></Image>
+                        <Image Source="/res/ExcelIcon.png"></Image>
                     </Button>
                 </StackPanel>
 
             </Border>
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <ComboBox Height="40" Width="200" Margin="20,0,0,0" SelectionChanged="ComboBox_SelectionChanged" x:Name="ComboBox1">
-                <ComboBoxItem>Фирмы</ComboBoxItem>
-                <ComboBoxItem>Продажи</ComboBoxItem>
-            </ComboBox>
+            <StackPanel>
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center">Диаграмма</Label>
+                <ComboBox Height="40" Width="200" Margin="20,0,0,0" SelectionChanged="ComboBox_SelectionChanged" x:Name="ComboBox1">
+                    <ComboBoxItem>Фирмы</ComboBoxItem>
+                    <ComboBoxItem>Продажи</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            
             <StackPanel Margin="150,0,0,0" Background="White" Width="500">
                 <StackPanel x:Name="StackP1">
                     <WpfPlot Name="WpfPlot" Width="500" Height="250"/>

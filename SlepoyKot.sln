@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppSrez2", "AppSrez2\AppSrez2.csproj", "{45F26F48-D085-466A-907C-7D115647069A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlepoyKot", "AppSrez2\SlepoyKot.csproj", "{45F26F48-D085-466A-907C-7D115647069A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
